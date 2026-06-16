@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hospital Helpdesk</string>
+    <string name="app_title">Symbiosis Hospital — Reception Desk</string>
+    <string name="server_url_hint">Server address, e.g. https://web-production-729c6.up.railway.app</string>
+    <string name="start_call">📞 Call Reception Desk</string>
+    <string name="end_call">⏹ End Call</string>
+    <string name="ready">Status: Ready</string>
+    <string name="connecting">Status: Connecting…</string>
+    <string name="listening">Status: Listening… please speak</string>
+    <string name="processing">Status: Processing speech…</string>
+    <string name="thinking">Status: Agent is thinking…</string>
+    <string name="speaking">Status: Speaking…</string>
+    <string name="call_ended">Status: Call ended</string>
+    <string name="connection_failed">Could not reach the server. %1$s</string>
+    <string name="server_trouble">I am sorry, I am having trouble connecting right now. Please try again.</string>
+    <string name="farewell">Thank you for contacting Symbiosis Hospital. Take care and goodbye!</string>
+    <string name="mic_permission_needed">Microphone permission is required for voice calls.</string>
+    <string name="enter_server_url">Please enter the server address first.</string>
+    <string name="recognition_unavailable">Speech recognition is not available on this device.</string>
+    <string name="recognition_error">Speech recognition error (code %1$d). Retrying…</string>
+    <string name="tts_unavailable">Text-to-speech is not available on this device.</string>
+</resources>
