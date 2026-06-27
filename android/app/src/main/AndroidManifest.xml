@@ -11,9 +11,6 @@
         </intent>
     </queries>
 
-    <!-- usesCleartextTraffic is enabled because the hospital server runs
-         on the local network over plain http. For public internet use,
-         put the server behind HTTPS and remove this flag. -->
     <application
         android:allowBackup="false"
         android:label="@string/app_name"

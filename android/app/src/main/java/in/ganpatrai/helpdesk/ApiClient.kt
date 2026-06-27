@@ -54,7 +54,7 @@ class ApiClient(private val baseUrl: String) {
             conn.outputStream.use { it.write(body.toString().toByteArray()) }
 
             val stream = if (conn.responseCode in 200..299)
-                conn.inputStream else conn.errorStream
+                conn.inputStream else (conn.errorStream ?: conn.inputStream)
             val text = stream.bufferedReader().use(BufferedReader::readText)
             if (conn.responseCode !in 200..299) {
                 throw RuntimeException("Server error ${conn.responseCode}: $text")

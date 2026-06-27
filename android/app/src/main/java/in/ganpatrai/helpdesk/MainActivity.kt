@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var ttsReady = false
     private var recognizer: SpeechRecognizer? = null
     private var api: ApiClient? = null
-    private var sessionId: String? = null
+    @Volatile private var sessionId: String? = null
     private var callActive = false
 
     // Listening languages offered to the caller.
@@ -69,8 +69,18 @@ class MainActivity : AppCompatActivity() {
         }
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {}
-            override fun onError(utteranceId: String?) { listenIfActive() }
-            override fun onDone(utteranceId: String?) { listenIfActive() }
+            override fun onDone(utteranceId: String?) {
+                if (utteranceId == "farewell") runOnUiThread { endCall() }
+                else listenIfActive()
+            }
+            override fun onError(utteranceId: String?) {
+                if (utteranceId == "farewell") runOnUiThread { endCall() }
+                else listenIfActive()
+            }
+            override fun onError(utteranceId: String?, errorCode: Int) {
+                if (utteranceId == "farewell") runOnUiThread { endCall() }
+                else listenIfActive()
+            }
         })
 
         callButton.setOnClickListener {
@@ -255,12 +265,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun speakThenEnd(text: String) {
-        callActive = false   // stop the listen loop after this utterance
+        callActive = false
+        recognizer?.destroy(); recognizer = null
+        val sid = sessionId
+        if (sid != null) thread { api?.endSession(sid) }
+        sessionId = null
         if (ttsReady) {
             tts?.language = pickLocale(text)
             tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "farewell")
+            // endCall() triggered by onDone("farewell") after speech finishes
+        } else {
+            resetCallButton()
+            setStatus(getString(R.string.call_ended))
         }
-        endCall()
     }
 
     // -------------------------------------------------------------- helpers
